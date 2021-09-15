@@ -1,0 +1,73 @@
+class Account
+  attr_reader :name, :balance
+
+  def initialize(name, balance = 100)
+    @name = name
+    @balance = balance
+  end
+
+  def class_management
+    puts "Bienvenu dans notre banque M. #{@name}"
+    puts 'Quel opération voulez-vous faire ?'
+    puts "taper *1* pour consulter votre solde \n *2* pour faire un retrait \n *3* pour faire un dépôt"
+    choice = Integer(gets.chomp)
+    case choice
+    when 1
+      puts 'Entrer votre mots de passe'
+      pass = Integer(gets.chomp)
+      display_balance(pass)
+
+    when 2
+      puts 'Entre votre mots de passe'
+      pass = Integer(gets.chomp)
+      puts 'Entre le montant à retirer'
+      amount_wi = Integer(gets.chomp)
+      withdraw(pass, amount_wi)
+
+    when 3
+      puts 'Entre le montant à déposer'
+      amount_add = Integer(gets.chomp)
+      add(amount_add)
+    end
+  end
+
+  def display_balance(pin_number)
+    if pin_number == pin
+      puts "Balance: $#{@balance}."
+      class_management
+    else
+      puts pin_error
+    end
+  end
+
+  def withdraw(pin_number, amount)
+    if pin_number == pin
+      if amount < @balance
+        @balance -= amount
+        puts "Withdrew #{amount}. New balance: $#{@balance}."
+      else
+        puts 'Fonds insufisant'
+        class_management
+      end
+      class_management
+    else
+      puts pin_error
+    end
+  end
+
+  def add(amount)
+    @balance += amount
+    puts 'Ajout éffectuer'
+    class_management
+  end
+
+  private
+
+  def pin
+    @pin = 1234
+  end
+
+  def pin_error
+    'Access denied: incorrect PIN.'
+  end
+end

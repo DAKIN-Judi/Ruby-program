@@ -1,0 +1,53 @@
+load 'bank_account.arb'
+load 'ruby_training.arb'
+class MainClass
+  def initialize
+    puts 'Bonjour !!'
+  end
+
+  def Menu
+    puts 'Voici le Menu du programme'
+    puts '1- pour faire des opérations bancaires'
+    puts '2- pour Compter le nombre de mots dans une phrase'
+    puts '3- pour Classer des individus enregistré en ordre alphabétique'
+    puts '4- pour démarrer le programme de notation de film'
+    puts '5- pour quitter le programme'
+    puts 'Faites votre choix'
+    Integer(gets.chomp)
+  end
+end
+
+def launcher
+  main_class = MainClass.new
+  training = RubyTraining.new
+  choice = main_class.Menu
+
+  case choice
+
+  when 1
+    puts 'Création de compte'
+    puts 'Entre votre nom, ceci sera considéré comme l\'intitulé du compte'
+    user_name = gets.chomp
+    puts 'Pour finaliser la création du compte faites un premier dépôt'
+    balance = Integer(gets.chomp)
+    puts 'Votre mot de passe est : 1234'
+    new_account = Account.new(user_name, balance)
+    new_account.class_management
+
+  when 2
+    training.occurence_counter
+  when 3
+    training.sort_element
+  when 4
+    training.movies_notation
+  when 5
+    puts 'Merci bye'
+  end
+
+  
+end
+
+launcher
+puts 'Reprendre le programme ? y-n'
+c = gets.chomp
+launcher if c == 'y'

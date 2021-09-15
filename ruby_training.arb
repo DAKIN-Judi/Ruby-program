@@ -1,0 +1,138 @@
+class RubyTraining
+  def initialize
+    @movies = {
+      'Mortal Combat' => 2,
+      'Fast and Furious' => 3
+    }
+  end
+
+  def occurence_counter
+    puts 'Entrer une phrase'
+    text = gets.chomp
+    words = text.split(' ')
+    frequencies = Hash.new(0)
+
+    words.each do |key|
+      frequencies[key] += 1
+    end
+
+    frequencies = frequencies.sort_by do |_key, value|
+      value
+    end
+
+    frequencies.reverse!
+    puts 'Occurence dans la phrase entrée'
+    frequencies.each { |k,v|
+      puts "#{k} : #{v}"
+    }
+  end
+
+  def sort_element
+    puts "Combien d\'élève voulez vous enregistrer ?"
+    nbr = Integer(gets.chomp)
+
+    sujet_list = []
+
+    (1..nbr).each do |i|
+      puts 'Entrer le nom et prénom du sujet'
+      sujet_list[i] = gets.chomp
+    end
+
+    puts 'Voici la liste des sujets en ordre alphabétique'
+    sujet_list.sort!
+    i = 1
+    sujet_list.each do |y|
+      puts "#{i}. #{y}"
+      i += 1
+    end
+  end
+
+  def movies_notation
+    puts "Nous notons sur 4 \n Menu"
+    puts ' Entrer *add* pour ajouter un nouveau film à la liste de film'
+    puts ' Entrer *update* pour mettre à jour la note d\'un filme'
+    puts ' Entrer *display* pour afficher les films enregistrer'
+    puts ' Entrer *delete* pour supprimer un film de la liste des films'
+
+    puts 'Que voudriez-vous faire ?'
+    choice = gets.chomp
+
+    case choice
+    when 'add'
+      puts 'Entrer le nom d\'un film'
+      title = gets.chomp
+      puts 'Entrer la note du film'
+      rating = Integer(gets.chomp)
+      while rating > 4 || rating.negative?
+        puts 'La note du film est comprise entre 0 et 4. Vueillez entrer une nouvelle note'
+        rating = Integer(gets.chomp)
+      end
+      if @movies[title.to_sym].nil?
+        @movies[title.to_sym] = rating.to_i
+        puts 'Film ajouter'
+
+        puts 'Nouvelle liste des films'
+        @movies.each do |key, value|
+          puts "#{key}: #{value}"
+        end
+      else
+        puts 'Ce film est déjà disponible'
+      end
+      puts 'Reprendre le programme ? y/n'
+      c = gets.chomp
+      @movies_notation if c == 'y'
+
+    when 'update'
+
+      puts 'Entrer le nom du film à mettre à jour'
+      title = gets.chomp
+      if @movies[title.to_sym].nil?
+        puts 'Ce film est indisponible'
+      else
+        puts 'Entrer la nouvelle note du film'
+        rating = Integer(gets.chomp)
+        while rating > 4 || rating.negative?
+          puts 'La note du film est comprise entre 0 et 4. Vueillez entrer une nouvelle note'
+          rating = Integer(gets.chomp)
+        end
+        movies[title.to_sym] = rating.to_i
+        puts 'Note mise à jour'
+        puts 'Nouvelle liste des films'
+        @movies.each do |key, value|
+          puts "#{key}: #{value}"
+        end
+      end
+    when 'display'
+      puts 'liste des films dispo'
+      @movies.each do |key, value|
+        puts "#{key}: #{value}"
+      end
+
+      puts 'Reprendre le programme ? y/n'
+      c = gets.chomp
+      @movies_notation if c == 'y'
+
+    when 'delete'
+      puts 'Entrer le nom du film à supprimer'
+      title = gets.chomp
+      if @movies[title.to_sym].nil?
+        puts 'Ce film est indisponible'
+        puts @movies[title.to_sym]
+      else
+        @movies.delete(title.to_sym)
+        puts 'Film supprimer'
+
+        puts 'Nouvelle liste des films'
+        @movies.each do |key, value|
+          puts "#{key}: #{value}"
+        end
+      end
+
+      puts 'Reprendre le programme ? y/n'
+      c = gets.chomp
+      @movies_notation if c == 'y'
+    else
+      puts 'Error!'
+    end
+  end
+end
